@@ -109,10 +109,6 @@ public class MainActivity extends AppCompatActivity {
                 mMediaPlayer.start();
                 updateAudioProgress();
                 mHandler.postDelayed(updateSongTime, UPDATE_TIME);
-
-                //Runnable runnable = () -> playTone(); // or an anonymous class, or lambda...
-                //Thread thread = new Thread(runnable);
-                //thread.start();
             } else {
                 System.out.println("audiofocus not granted");
             }
@@ -144,24 +140,15 @@ public class MainActivity extends AppCompatActivity {
 
         // AudioTrack button handlers
         btnStart.setOnClickListener(v -> {
-
-//            if(radioBtnStatic.isSelected()) {
-//                Runnable runnable = () -> playAudioTrackStatic();
-//                Thread thread = new Thread(runnable);
-//                thread.start();
-//            } else {
-//                Runnable runnable = () -> playAudioTrackStream();
-//                Thread thread = new Thread(runnable);
-//                thread.start();
-//            }
-
-            Runnable runnable = () -> {
-                AudioTrackPlayer audioTrackPlayer = new AudioTrackPlayer(this);
-                audioTrackPlayer.play();
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-
+            if (radioBtnStatic.isSelected()) {
+                Runnable runnable = () -> playAudioTrackStatic();
+                Thread thread = new Thread(runnable);
+                thread.start();
+            } else {
+                Runnable runnable = () -> playAudioTrackStream();
+                Thread thread = new Thread(runnable);
+                thread.start();
+            }
 
             if (btnStop.isEnabled())
                 btnStop.setEnabled(false);
@@ -172,15 +159,22 @@ public class MainActivity extends AppCompatActivity {
 //            int currentTime = mMediaPlayer.getCurrentPosition();
 //            if ((currentTime - SEEK_TIME) > 0)
 //                mMediaPlayer.seekTo(currentTime - SEEK_TIME);
-//
-//            if (!btnPlay.isEnabled())
-//                btnPlay.setEnabled(true);
+
+            if (!btnPlay.isEnabled())
+                btnPlay.setEnabled(true);
         });
 
 
         Button btnOffload = findViewById(R.id.btnOffload);
         btnOffload.setOnClickListener(v -> {
             Runnable runnable = this::playOffload;
+            Thread thread = new Thread(runnable);
+            thread.start();
+        });
+
+        Button btnWav = findViewById(R.id.btnWav);
+        btnWav.setOnClickListener(v -> {
+            Runnable runnable = this::playWav;
             Thread thread = new Thread(runnable);
             thread.start();
         });
@@ -337,6 +331,48 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        audioTrack.stop();
+        audioTrack.release();
+    }
+
+    public void playWav() {
+        Log.d("------", "play");
+
+        InputStream is = getResources().openRawResource(R.raw.sinewaves);
+
+        int minBufferSize = AudioTrack.getMinBufferSize(44100,
+                AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+
+        AudioFormat audioFormat = new AudioFormat.Builder()
+                .setSampleRate(44100)
+                .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
+                .setChannelMask(AudioFormat.CHANNEL_OUT_MONO).build();
+
+        AudioTrack audioTrack = new AudioTrack(
+                audioAttributes,
+                audioFormat,
+                minBufferSize,
+                AudioTrack.MODE_STREAM,
+                AudioManager.AUDIO_SESSION_ID_GENERATE);
+
+        try {
+            int i = 0;
+            byte[] buffer = new byte[512];
+            audioTrack.play();
+
+            Log.d("------", "write starts");
+            while ((i = is.read(buffer)) != -1) {
+                audioTrack.write(buffer, 0, i);
+            }
+            Log.d("------", "write ends");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         audioTrack.stop();
         audioTrack.release();
     }

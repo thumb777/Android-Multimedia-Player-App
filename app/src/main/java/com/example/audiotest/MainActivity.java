@@ -141,11 +141,11 @@ public class MainActivity extends AppCompatActivity {
         // AudioTrack button handlers
         btnStart.setOnClickListener(v -> {
             if (radioBtnStatic.isSelected()) {
-                Runnable runnable = () -> playAudioTrackStatic();
+                Runnable runnable = this::playAudioTrackStatic;
                 Thread thread = new Thread(runnable);
                 thread.start();
             } else {
-                Runnable runnable = () -> playAudioTrackStream();
+                Runnable runnable = this::playAudioTrackStream;
                 Thread thread = new Thread(runnable);
                 thread.start();
             }
@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //AudioTrack functions
-    void playAudioTrackStream() {
+    public void playAudioTrackStream() {
         final int duration = 10; // duration of sound
         final int sampleRate = 44100; // Hz (maximum frequency is 7902.13Hz (B8))
         final int numSamples = duration * sampleRate;
@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
         audioTrack.release();
     }
 
-    void playAudioTrackStatic() {
+    public void playAudioTrackStatic() {
         final int duration = 10; // duration of sound
         final int sampleRate = 44100; // Hz (maximum frequency is 7902.13Hz (B8))
         final int numSamples = duration * sampleRate;
@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
         audioTrack.release();
     }
 
-    private void playOffload() {
+    public void playOffload() {
         Log.d("------", "play");
 
         InputStream is = getResources().openRawResource(R.raw.music);

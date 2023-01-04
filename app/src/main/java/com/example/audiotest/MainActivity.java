@@ -2,11 +2,14 @@ package com.example.audiotest;
 
 import android.content.Context;
 import android.media.*;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 import android.widget.*;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
@@ -36,15 +39,17 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler = new Handler(Looper.getMainLooper());
     boolean mIsMaxSet = false;
 
+    private BatteryManager mBatteryManager = null;
+
     // media player instance to playback the media file from the raw folder
     MediaPlayer mMediaPlayer;
 
     // Audio manager instance to manage or handle the audio interruptions
-    AudioManager audioManager;
+    //AudioManager audioManager;
 
     // Audio attributes instance to set the playback attributes for the media player instance
     // these attributes specify what type of media is to be played and used to callback the audioFocusChangeListener
-    AudioAttributes playbackAttributes;
+    //AudioAttributes audioAttributes;
 
     // media player is handled according to the change in the focus which Android system grants for
     AudioManager.OnAudioFocusChangeListener audioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
@@ -82,22 +87,25 @@ public class MainActivity extends AppCompatActivity {
 
         seekBarSong.setClickable(false);
         txtSongName.setText("music.mp3");
+
+        mBatteryManager = (BatteryManager) getSystemService(Context.BATTERY_SERVICE);
+
         mMediaPlayer = MediaPlayer.create(this, R.raw.music);
 
         btnPlay.setOnClickListener(v -> {
 
             // get the audio system service for the audioManger instance
-            audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
             // initiate the audio playback attributes
-            playbackAttributes = new AudioAttributes.Builder()
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_MEDIA)
                     .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                     .build();
 
             // set the playback attributes for the focus requester
             AudioFocusRequest focusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-                    .setAudioAttributes(playbackAttributes)
+                    .setAudioAttributes(audioAttributes)
                     .setAcceptsDelayedFocusGain(true)
                     .setOnAudioFocusChangeListener(audioFocusChangeListener)
                     .build();
@@ -138,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
                 btnPlay.setEnabled(true);
         });
 
+        //////////////////////////////////////////////////////////////
         // AudioTrack button handlers
         btnStart.setOnClickListener(v -> {
             if (radioBtnStatic.isSelected()) {
@@ -178,6 +187,24 @@ public class MainActivity extends AppCompatActivity {
             Thread thread = new Thread(runnable);
             thread.start();
         });
+
+        //new Thread(this::initSoundPool).start();
+
+
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+//        AudioManager am = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+//
+//        // Start listening for button presses
+//        am.registerMediaButtonEventReceiver(RemoteControlReceiver);
+//
+//        // Stop listening for button presses
+//        am.unregisterMediaButtonEventReceiver(RemoteControlReceiver);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "-- ON STOP --");
     }
 
     private final Runnable updateSongTime = new Runnable() {
@@ -204,6 +231,12 @@ public class MainActivity extends AppCompatActivity {
         seekBarSong.setProgress(currentTime);
 
         Log.d(TAG, "Current Position: " + currentTime);
+
+        int mBatteryCurrentNow = mBatteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW);
+        int mBatteryCurrentAvg = mBatteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_AVERAGE);
+
+        Log.d(TAG, "Battery current now: " + mBatteryCurrentNow);
+        Log.d(TAG, "Battery current avg: " + mBatteryCurrentAvg);
     }
 
     //time conversion
@@ -251,6 +284,7 @@ public class MainActivity extends AppCompatActivity {
                 AudioTrack.MODE_STREAM,
                 AudioManager.AUDIO_SESSION_ID_GENERATE);
 
+        audioTrack.setVolume(0.1f);
         audioTrack.play();
 
         for (int i = 0; i < 100; i++) {
@@ -295,7 +329,6 @@ public class MainActivity extends AppCompatActivity {
 
         audioTrack.write(buffer, 0, buffer.length);
         audioTrack.play();
-
 
         try {
             Thread.sleep(10000);
@@ -375,5 +408,56 @@ public class MainActivity extends AppCompatActivity {
         }
         audioTrack.stop();
         audioTrack.release();
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////
+    SoundPool soundPool;
+    int game_over, level_complete;
+
+    public void initSoundPool() {
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(3)
+                .setAudioAttributes(audioAttributes)
+                .build();
+
+        // This load function takes three parameter context, file_name and priority.
+        game_over = soundPool.load(this, R.raw.music, 1);
+        //level_complete = soundPool.load(this, R.raw.sinewaves, 1);
+
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                Log.d("------", "onLoadComplete, sampleId : " + sampleId);
+                soundPool.play(sampleId, 1.0f, 1.0f, 0, 0, 1.0f);
+            }
+        });
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void playSound(View v) {
+        Log.d("------", "playSound, game_over : " + game_over);
+        switch (v.getId()) {
+            case R.id.btnSoundPool:
+                // This play function takes five parameter leftVolume, rightVolume, priority, loop and rate.
+                Log.d("------", "playSound, game_over : " + game_over);
+                soundPool.play(game_over, 1, 1, 0, 0, 1);
+                soundPool.autoPause();
+                break;
+            case R.id.btnSoundPool2:
+                Log.d("------", "playSound, game_over : " + game_over);
+                soundPool.play(level_complete, 1, 1, 0, 0, 1);
+                break;
+        }
     }
 }

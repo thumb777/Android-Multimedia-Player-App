@@ -1,13 +1,13 @@
 package com.example.audiotest;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class PowerTest extends AppCompatActivity {
 

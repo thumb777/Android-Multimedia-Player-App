@@ -1,6 +1,8 @@
-package com.example.audiotest;
+package com.wavesignal.mmtest.view;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +14,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.wavesignal.mmtest.ControlReceiver;
+import com.wavesignal.mmtest.audiotest.R;
 
 public class MainActivity extends AppCompatActivity {
     @SuppressLint("RestrictedApi")
@@ -91,6 +95,22 @@ public class MainActivity extends AppCompatActivity {
 //        }
     }
 
+
+    ControlReceiver controlReceiver = new ControlReceiver();
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        registerReceiver(controlReceiver, filter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(controlReceiver);
+    }
 
     // create an action bar button
     @Override

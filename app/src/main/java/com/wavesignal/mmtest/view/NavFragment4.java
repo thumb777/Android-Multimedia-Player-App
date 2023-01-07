@@ -1,4 +1,4 @@
-package com.example.audiotest;
+package com.wavesignal.mmtest.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-public class NavFragment2 extends Fragment {
-    public static NavFragment2 newInstance() {
-        NavFragment2 fragment = new NavFragment2();
+import com.wavesignal.mmtest.audiotest.R;
+
+public class NavFragment4 extends Fragment {
+    public static NavFragment4 newInstance() {
+        NavFragment4 fragment = new NavFragment4();
         return fragment;
     }
 
@@ -21,6 +23,6 @@ public class NavFragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.nav_fragment_2, container, false);
+        return inflater.inflate(R.layout.nav_fragment_4, container, false);
     }
 }

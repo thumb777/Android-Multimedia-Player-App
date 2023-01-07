@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.audiotest">
+    package="com.wavesignal.mmtest">
 
     <application
         android:allowBackup="true"
@@ -10,7 +10,7 @@
         android:supportsRtl="true">
 
         <activity
-            android:name="com.example.audiotest.MainActivity"
+            android:name="com.wavesignal.mmtest.view.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat">
@@ -21,10 +21,11 @@
         </activity>
 
         <receiver
-            android:name="com.example.audiotest.RemoteControlReceiver"
+            android:name="com.wavesignal.mmtest.ControlReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
+                <action android:name="android.intent.action.AIRPLANE_MODE" />
             </intent-filter>
         </receiver>
     </application>

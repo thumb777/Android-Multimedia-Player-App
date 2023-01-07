@@ -4,7 +4,7 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.audiotest.NavFragment1">
+    tools:context="com.wavesignal.mmtest.view.NavFragment1">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"

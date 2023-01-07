@@ -1,4 +1,4 @@
-package com.example.audiotest;
+package com.wavesignal.mmtest.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+
+import com.wavesignal.mmtest.audiotest.R;
 
 public class NavFragment5 extends Fragment {
     public static NavFragment5 newInstance() {

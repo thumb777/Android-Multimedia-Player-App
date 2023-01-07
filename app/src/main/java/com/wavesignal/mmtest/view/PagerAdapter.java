@@ -1,4 +1,4 @@
-package com.example.audiotest;
+package com.wavesignal.mmtest.view;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

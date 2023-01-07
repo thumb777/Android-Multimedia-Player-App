@@ -5,7 +5,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.audiotest.MainActivity">
+    tools:context="com.wavesignal.mmtest.view.MainActivity">
 
     <FrameLayout
         android:id="@+id/frame_layout"

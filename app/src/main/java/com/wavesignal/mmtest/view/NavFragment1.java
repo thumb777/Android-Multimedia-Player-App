@@ -10,14 +10,14 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.wavesignal.mmtest.audiotest.Nav1Tab3;
+import com.wavesignal.mmtest.audiotest.Nav1Tab4;
 import com.wavesignal.mmtest.audiotest.R;
-import com.wavesignal.mmtest.audiotest.TabFragment1;
-import com.wavesignal.mmtest.audiotest.TabFragment2;
-import com.wavesignal.mmtest.audiotest.TabFragment3;
-import com.wavesignal.mmtest.audiotest.TabFragment4;
-import com.wavesignal.mmtest.audiotest.TabFragment5;
-import com.wavesignal.mmtest.audiotest.TabFragment6;
-import com.wavesignal.mmtest.audiotest.TabFragment7;
+import com.wavesignal.mmtest.audiotest.Nav1Tab1;
+import com.wavesignal.mmtest.audiotest.Nav1Tab2;
+import com.wavesignal.mmtest.audiotest.Nav1Tab5;
+import com.wavesignal.mmtest.audiotest.Nav1Tab6;
+import com.wavesignal.mmtest.audiotest.Nav1Tab7;
 
 public class NavFragment1 extends Fragment {
     private TabLayout tabLayout;
@@ -48,13 +48,14 @@ public class NavFragment1 extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         PagerAdapter adapter = new PagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new TabFragment1(), "Tab1");
-        adapter.addFragment(new TabFragment2(), "Tab2");
-        adapter.addFragment(new TabFragment3(), "Tab3");
-        adapter.addFragment(new TabFragment4(), "Tab4");
-        adapter.addFragment(new TabFragment5(), "Tab5");
-        adapter.addFragment(new TabFragment6(), "Tab6");
-        adapter.addFragment(new TabFragment7(), "Tab7");
+        adapter.addFragment(new Nav1Tab1(), "Tab1");
+        adapter.addFragment(new Nav1Tab2(), "Tab2");
+        adapter.addFragment(new Nav1Tab3(), "Tab3");
+        adapter.addFragment(new Nav1Tab4(), "Tab4");
+        adapter.addFragment(new Nav1Tab5(), "Tab5");
+        adapter.addFragment(new Nav1Tab6(), "Tab6");
+        adapter.addFragment(new Nav1Tab7(), "Tab7");
+        viewPager.setOffscreenPageLimit(adapter.getCount());
         viewPager.setAdapter(adapter);
     }
 

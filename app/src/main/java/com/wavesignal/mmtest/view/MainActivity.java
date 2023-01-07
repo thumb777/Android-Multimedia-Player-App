@@ -18,85 +18,64 @@ import com.wavesignal.mmtest.ControlReceiver;
 import com.wavesignal.mmtest.audiotest.R;
 
 public class MainActivity extends AppCompatActivity {
-    @SuppressLint("RestrictedApi")
+
+    Fragment activeFragment;
+    Fragment selectedFragment1 = NavFragment1.newInstance();
+    Fragment selectedFragment2 = NavFragment2.newInstance();
+    Fragment selectedFragment3 = NavFragment3.newInstance();
+    Fragment selectedFragment4 = NavFragment4.newInstance();
+    Fragment selectedFragment5 = NavFragment5.newInstance();
+
+    ControlReceiver controlReceiver = new ControlReceiver();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
-        BottomNavigationMenuView menuView = (BottomNavigationMenuView)
-                bottomNavigationView.getChildAt(0);
-        try {
-//            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
-//
-//            shiftingMode.setAccessible(true);
-//            shiftingMode.setBoolean(menuView, false);
-//            shiftingMode.setAccessible(false);
-
-            for (int i = 0; i < menuView.getChildCount(); i++) {
-
-                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
-                //item.setShiftingMode(false);
-                //To update view, set the checked value again
-                item.setChecked(item.getItemData().isChecked());
-            }
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        }
-
-        BottomNavigationView.OnItemSelectedListener mOnItemSelectedListener
-                = item -> {
-
-            Fragment selectedFragment = null;
-            switch (item.getItemId()) {
-                case R.id.action_item1:
-                    selectedFragment = NavFragment1.newInstance();
-                    break;
-                case R.id.action_item2:
-                    selectedFragment = NavFragment2.newInstance();
-                    break;
-                case R.id.action_item3:
-                    selectedFragment = NavFragment3.newInstance();
-                    break;
-                case R.id.action_item4:
-                    selectedFragment = NavFragment4.newInstance();
-                    break;
-                case R.id.action_item5:
-                    selectedFragment = NavFragment5.newInstance();
-                    break;
-            }
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.frame_layout, selectedFragment);
-            transaction.commit();
-            return true;
-        };
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_layout, NavFragment1.newInstance());
-        transaction.commit();
-
         bottomNavigationView.setOnItemSelectedListener(mOnItemSelectedListener);
 
-//        HomeScreenPresenter.getInstance().test();
-//
-//        File pcmFile;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-//            pcmFile = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + Const.FS + "recording.txt");
-//        } else {
-//            pcmFile = new File(Environment.getExternalStorageDirectory(), "recording.txt");
-//        }
-//        Log.d("MainActivity", "File===========> " + pcmFile.getAbsolutePath());
-//        try {
-//            String str = "Vilas";
-//            byte[] utf = str.getBytes(StandardCharsets.UTF_8);
-//            FileOutputStream outStream = new FileOutputStream(pcmFile);
-//            outStream.write(utf, 0, utf.length);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        //transaction.replace(R.id.frame_layout, selectedFragment);
+        transaction.add(R.id.frame_layout, selectedFragment1);
+        transaction.add(R.id.frame_layout, selectedFragment2).hide(selectedFragment2);
+        transaction.add(R.id.frame_layout, selectedFragment3).hide(selectedFragment3);
+        transaction.add(R.id.frame_layout, selectedFragment4).hide(selectedFragment4);
+        transaction.add(R.id.frame_layout, selectedFragment5).hide(selectedFragment5);
+        transaction.commit();
+
+        activeFragment =  selectedFragment1;
     }
 
+    BottomNavigationView.OnItemSelectedListener mOnItemSelectedListener = item -> {
+        Fragment selectedFragment = null;
+        switch (item.getItemId()) {
+            case R.id.action_item1:
+                selectedFragment = selectedFragment1;
+                break;
+            case R.id.action_item2:
+                selectedFragment = selectedFragment2;
+                break;
+            case R.id.action_item3:
+                selectedFragment = selectedFragment3;
+                break;
+            case R.id.action_item4:
+                selectedFragment = selectedFragment4;
+                break;
+            case R.id.action_item5:
+                selectedFragment = selectedFragment5;
+                break;
+        }
 
-    ControlReceiver controlReceiver = new ControlReceiver();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        //transaction.replace(R.id.frame_layout, selectedFragment);
+        transaction.hide(activeFragment).show(selectedFragment);
+        transaction.commit();
+
+        activeFragment = selectedFragment;
+
+        return true;
+    };
 
     @Override
     protected void onStart() {
@@ -111,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         unregisterReceiver(controlReceiver);
     }
-
     // create an action bar button
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

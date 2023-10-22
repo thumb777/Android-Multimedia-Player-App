@@ -52,7 +52,7 @@ We welcome contributions from the developer community to make Multimedia Player 
 
 ## Feedback and Support
 
-If you encounter any issues or have questions about using Multimedia Player, please don't hesitate to reach out. Visit the [Issues](https://github.com/vilassn/android-player/issues) section in the repository to report problems or seek assistance.
+If you encounter any issues or have questions about using Multimedia Player, please don't hesitate to reach out. Visit the [Issues](https://github.com/vilassn/multimedia-player/issues) section in the repository to report problems or seek assistance.
 
 ## License
 

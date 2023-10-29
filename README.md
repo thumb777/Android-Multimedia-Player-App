@@ -1,61 +1,60 @@
-# Multimedia Player - Your All-in-One Media Experience
+# Android Multimedia Player with GStreamer and FFmpeg Integration
 
-Welcome to **Multimedia Player**, a versatile and feature-rich media player designed to enhance your audio and video playback experience. This open-source project offers a user-friendly interface and supports a wide range of multimedia file formats.
+This multimedia player for Android demonstrates the use of Android's audio and video APIs, along with the integration of GStreamer and FFmpeg to enhance multimedia capabilities.
 
-## Features
+## Prerequisites
 
-### Play Multiple Media Formats
-
-Multimedia Player supports a vast array of audio and video formats, ensuring that you can enjoy all your favorite content without worrying about compatibility issues.
-
-### Intuitive User Interface
-
-The player features an intuitive and sleek interface that makes navigation and control a breeze. It offers an enjoyable user experience for users of all skill levels.
-
-### Customization
-
-As an open-source project, you have the freedom to customize the player to suit your needs. Whether you want to add new features, change the UI, or integrate it into your own projects, the possibilities are endless.
-
-### Playlists
-
-Organize your media with playlists. Create, edit, and manage playlists to curate your multimedia experience.
-
-### Equalizer and Effects
-
-Enhance your audio experience with built-in equalizer settings and audio effects for fine-tuning the sound to your liking.
-
-### Keyboard Shortcuts
-
-Navigate through your media library with ease using keyboard shortcuts for various commands.
-
-### Full-Screen Mode
-
-Enjoy your videos on the full screen for an immersive viewing experience.
+- Android Studio
+- Android SDK
+- FFmpeg library
+- GStreamer library
 
 ## Getting Started
 
-To start using Multimedia Player, follow these simple steps:
+1. Clone this repository to your local machine.
 
-1. Clone or download the repository to your local machine.
+2. Ensure you have Android Studio installed. If not, download and install it from [Android Studio](https://developer.android.com/studio).
 
-2. Install any necessary dependencies mentioned in the project documentation.
+3. Open the project in Android Studio.
 
-3. Run the player on your computer.
+4. Configure FFmpeg and GStreamer libraries:
+   - Place the FFmpeg and GStreamer libraries in the appropriate directories within the project.
+   - Update the build.gradle file to include the necessary dependencies.
 
-4. Open your multimedia files (audio or video) within the player.
+5. Build and run the application on your Android device or emulator.
 
-5. Start enjoying your media with the various features and customization options available.
+## Features
 
-## Contributing
+- Multimedia playback: Play audio and video files from your device's storage.
+- GStreamer integration: Demonstrate the use of GStreamer for enhanced multimedia processing.
+- FFmpeg integration: Showcase FFmpeg capabilities for audio and video manipulation.
 
-We welcome contributions from the developer community to make Multimedia Player even better. If you have suggestions, bug fixes, or new features to add, please submit a pull request. Check out our contribution guidelines in the repository for more details.
+## Usage
 
-## Feedback and Support
+- Launch the app on your Android device.
+- Choose a multimedia file from your device's storage.
+- Enjoy multimedia playback with GStreamer and FFmpeg enhancements.
 
-If you encounter any issues or have questions about using Multimedia Player, please don't hesitate to reach out. Visit the [Issues](https://github.com/vilassn/multimedia-player/issues) section in the repository to report problems or seek assistance.
+## Troubleshooting
+
+If you encounter any issues, refer to the [Troubleshooting Guide](TROUBLESHOOTING.md) for assistance.
+
+## Contributions
+
+Contributions are welcome. Please follow the guidelines in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-Multimedia Player is open-source and distributed under the [MIT License](https://opensource.org/licenses/MIT). You are free to use, modify, and distribute the software within the bounds of this license.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
-Thank you for choosing Multimedia Player for your multimedia playback needs. We hope you enjoy the seamless and customizable experience it offers.
+## Acknowledgments
+
+- [GStreamer](https://gstreamer.freedesktop.org/)
+- [FFmpeg](https://www.ffmpeg.org/)
+- [Android Developer Documentation](https://developer.android.com/)
+
+## Contact
+
+For questions or feedback, please contact [your-email@example.com].
+
+Thank you for using our multimedia player with GStreamer and FFmpeg integration!
